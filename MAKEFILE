@@ -1,0 +1,104 @@
+## Tell 'make' where we are!
+
+BASE=D:\RATOS
+
+
+## These macros are path relative to the two above
+
+EXEDIR=$(BASE)\SOURCE\EXE
+SRCDIR=$(BASE)\SOURCE
+OBJDIR=$(SRCDIR)\OBJS
+INCDIR=$(SRCDIR)\INCS
+
+TASMOPTS=/n/w2/ml/i$(INCDIR)
+
+
+## Here's the list of guys to build
+
+OBJS =	$(OBJDIR)\moncode.obj \
+	$(OBJDIR)\mondisk.obj \
+	$(OBJDIR)\monkbd.obj \
+	$(OBJDIR)\monints.obj \
+	$(OBJDIR)\monfirst.obj \
+	$(OBJDIR)\monstep.obj \
+	$(OBJDIR)\monmem.obj \
+	$(OBJDIR)\montask.obj \
+	$(OBJDIR)\montabs.obj \
+	$(OBJDIR)\monbbc.obj \
+	$(OBJDIR)\monlast.obj \
+	$(OBJDIR)\bbcdos.obj \
+	$(OBJDIR)\monio.obj \
+	$(OBJDIR)\monfp.obj \
+	$(OBJDIR)\monuart.obj
+
+
+
+AllFiles: $(EXEDIR)\mon.exe
+	@echo .
+	@echo ******************
+	@echo * BUILD COMPLETE *
+	@echo ******************
+
+
+$(EXEDIR)\mon.exe: $(OBJS)
+	$(BASE)\tools\link.exe @mon.lk
+#	$(BASE)\tools\mkbin.exe 0 $(EXEDIR)\mon.exe $(EXEDIR)\mon.bin
+
+
+
+
+$(OBJDIR)\monio.obj: $(SRCDIR)\monio.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\moncode.obj: $(SRCDIR)\moncode.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\mondisk.obj: $(SRCDIR)\mondisk.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\monkbd.obj: $(SRCDIR)\monkbd.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\monints.obj: $(SRCDIR)\monints.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\monfirst.obj: $(SRCDIR)\monfirst.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\monstep.obj: $(SRCDIR)\monstep.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\monmem.obj: $(SRCDIR)\monmem.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\montask.obj: $(SRCDIR)\montask.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\montabs.obj: $(SRCDIR)\montabs.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\monbbc.obj: $(SRCDIR)\monbbc.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\monlast.obj: $(SRCDIR)\monlast.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\monfp.obj: $(SRCDIR)\monfp.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\monuart.obj: $(SRCDIR)\monuart.asm
+	$(BASE)\tools\tasm $(TASMOPTS) $(SRCDIR)\$&,$*,$*;
+
+$(OBJDIR)\bbcdos.obj: $(SRCDIR)\bbcdos.c
+	## Make ASM and LST file first
+	cc +2 -c -n -T -a -o $(OBJDIR)\bbcdos.asm $(SRCDIR)\bbcdos.c
+	as -L -ZAP $(OBJDIR)\bbcdos.asm
+	## Now just do a straight compile and convert .o to .obj format
+	cc +2 -c -n -o $(OBJDIR)\bbcdos.o $(SRCDIR)\bbcdos.c
+	obj $(OBJDIR)\bbcdos.o $(OBJDIR)\bbcdos.obj
+
+
+clean:
+	del /Q $(OBJDIR)
+	del /Q $(EXEDIR)
+

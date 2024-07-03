@@ -1,0 +1,18 @@
+objs\monfirst+
+objs\moncode+
+objs\mondisk+
+objs\monuart+
+objs\monio+
+objs\monkbd+
+objs\monints+
+objs\monmem+
+objs\montask+
+objs\montabs+
+objs\monstep+
+objs\monfp+
+objs\monbbc+
+objs\bbcdos+
+objs\monlast
+exe\mon.exe
+exe\mon.map /map/noignorecase;
+
