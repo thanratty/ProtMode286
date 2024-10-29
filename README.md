@@ -26,6 +26,7 @@ Pressing ESCape at any point coldboots the monitor.
 
 ## Finally
 I can't imagine this code will be of any use to anybody, anywhere... but you never know!
+MONCODE.ASM is the startup file, so start your journey there.
 
 16 bit protected mode awaits :)
 
